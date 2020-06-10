@@ -190,11 +190,14 @@ namespace FredericRP.AssetStoreTools
         package.includeDependencies = EditorGUILayout.Toggle("Include dependencies", package.includeDependencies);
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.PrefixLabel("Root path");
-        if (GUILayout.Button("Select..."))
+        if (GUILayout.Button("Select...", GUILayout.Width(70)))
         {
-          package.root_path = EditorUtility.OpenFolderPanel("Select root path", Application.dataPath + package.root_path, "").Substring(Application.dataPath.Length);
+          string newPath = EditorUtility.OpenFolderPanel("Select root path", Application.dataPath + package.root_path, "");
+          if (!string.IsNullOrEmpty(newPath) && newPath.StartsWith(Application.dataPath))
+            package.root_path = newPath.Substring(Application.dataPath.Length);
+          
         }
-        GUILayout.Label(package.root_path, GUILayout.MaxWidth(24));
+        GUILayout.Label(package.root_path);
         EditorGUILayout.EndHorizontal();
       }
       GUI.enabled = wasEnabled;
@@ -238,8 +241,8 @@ namespace FredericRP.AssetStoreTools
 
     void UploadPackage(Package package)
     {
-      api.ExportPackage(package);
-      api.Upload(package.id,
+      if (api.ExportPackage(package))
+        api.Upload(package.id,
                                package.PackageExportPath,
                                package.root_path,
                                package.root_guid,

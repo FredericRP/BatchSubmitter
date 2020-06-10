@@ -116,9 +116,13 @@ namespace Common
       return package.IsDraft && package.selected && !package.hidden;
     }
 
-    public void ExportPackage(Package package)
+    public bool ExportPackage(Package package)
     {
-      string[] guids = AssetDatabase.FindAssets("", new[] { "Assets/" + package.root_path });
+      string[] guids = AssetDatabase.FindAssets("", new[] { "Assets" + package.root_path });
+
+      if (guids.Length == 0)
+        return false;
+
       string[] pathList = new string[guids.Length];
 
       for (int i = 0; i < guids.Length; i++)
@@ -126,6 +130,7 @@ namespace Common
         pathList[i] = AssetDatabase.GUIDToAssetPath(guids[i]);
       }
       AssetDatabase.ExportPackage(pathList, package.PackageExportPath, ExportPackageOptions.Recurse);
+      return true;
     }
 
 

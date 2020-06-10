@@ -25,18 +25,20 @@ namespace FredericRP.AssetStoreTools
         if (api.ReadyToUpload(package))
         {
           Debug.Log("AutoSubmitterClient export " + package.name);
-          api.ExportPackage(package);
-          Debug.Log("AutoSubmitterClient upload " + package.name);
-          //string rootGuid = AssetDatabase.AssetPathToGUID("Assets" + package.root_path);
-          requestCount++;
-          api.Upload(package.id,
-                    package.PackageExportPath,
-                    package.root_path,
-                    package.root_guid,
-                    Application.dataPath,
-                    Application.unityVersion,
-                    OnCompleted
-                    );
+          if (api.ExportPackage(package))
+          {
+            Debug.Log("AutoSubmitterClient upload " + package.name);
+            //string rootGuid = AssetDatabase.AssetPathToGUID("Assets" + package.root_path);
+            requestCount++;
+            api.Upload(package.id,
+                      package.PackageExportPath,
+                      package.root_path,
+                      package.root_guid,
+                      Application.dataPath,
+                      Application.unityVersion,
+                      OnCompleted
+                      );
+          }
         }
       }
     }
