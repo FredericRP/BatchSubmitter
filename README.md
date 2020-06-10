@@ -6,7 +6,7 @@ An editor window smooths the onboarding.
 
 ![Config via the editor window](Documentation~/images/editor_window.jpg)
 
-I created this asset during my research on how to ease the publishing process, read my thinking process in the [Medium post](https://medium.com/p/1339880dd09f).
+I created this asset during my research on how to ease the publishing process, read my thinking process in the [Medium post](https://medium.com/@FredericRP/your-assets-in-the-unity-package-manager-from-a-git-subfolder-1339880dd09f?sk=3615b1ac303ed3e7f4a4e26d918cb07e).
 
 > **Disclaimer**: this asset uses undocumented APIs and Internal Editor APIs, it may breaks sometime, use at your own risks!
 

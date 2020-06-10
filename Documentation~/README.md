@@ -5,7 +5,7 @@ Easily upload new releases of your assets to the Unity Asset Store using this to
 An editor window smooths the onboarding.
 ![Config via the editor window](images/editor_window.jpg)
 
-I created this asset during my research on how to ease the publishing process, read my thinking process in the [Medium post](https://medium.com/p/1339880dd09f).
+I created this asset during my research on how to ease the publishing process, read my thinking process in the [Medium post](https://medium.com/@FredericRP/your-assets-in-the-unity-package-manager-from-a-git-subfolder-1339880dd09f?sk=3615b1ac303ed3e7f4a4e26d918cb07e).
 
 > **Disclaimer**: this asset uses undocumented APIs and Internal Editor APIs, it may breaks sometime, use at your own risks!
 > **Thanksclaimer**: this asset development was way more easier thanks to the previous research of Michael 'Mikilo' Nguyen and Elmar 'RockTomate' that shared their work in the [Unity forum/snippet-how-to-upload-your-package-via-code](https://forum.unity.com/threads/snippet-how-to-upload-your-package-via-code.819858)
