@@ -1,6 +1,6 @@
 {
   "name": "com.fredericrp.batchsubmitter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "Batch Submitter",
   "description": "Easily upload new releases of your assets to the Unity Asset Store using this tool that allows to configure packages to upload and usable in batch mode.",
   "unity": "2019.3",
