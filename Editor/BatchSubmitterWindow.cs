@@ -17,6 +17,7 @@ namespace FredericRP.AssetStoreTools
 
     GUIContent hideButton;
     GUIContent errorStatus;
+    bool selectAll;
 
     public class PublisherData
     {
@@ -130,9 +131,19 @@ namespace FredericRP.AssetStoreTools
       {
         api.SavePackages();
       }
-      if (GUILayout.Button("All", EditorStyles.toolbarButton))
+      if (GUILayout.Button("Show All", EditorStyles.toolbarButton))
       {
         api.ShowAllPackages();
+      }
+      EditorGUI.BeginChangeCheck();
+      selectAll = EditorGUILayout.Toggle(selectAll, GUILayout.Width(24));
+      if (EditorGUI.EndChangeCheck())
+      {
+        for (int i = 0; i < api.PackageCount; i++)
+        {
+          if (!api.GetPackage(i).hidden)
+            api.GetPackage(i).selected = selectAll;
+        }
       }
       EditorGUILayout.EndHorizontal();
       if (api.HasPackages)
