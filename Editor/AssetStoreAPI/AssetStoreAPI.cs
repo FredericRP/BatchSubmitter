@@ -91,7 +91,7 @@ namespace Common
     void UpdateRootGuids()
     {
       for (int i = 0; i < cachedPackages.packages.Length; i++)
-        cachedPackages.packages[i].root_guid = AssetDatabase.AssetPathToGUID(cachedPackages.packages[i].root_path);
+        cachedPackages.packages[i].root_guid = AssetDatabase.AssetPathToGUID("Assets" + cachedPackages.packages[i].root_path);
     }
 
     public void SavePackages()
@@ -306,8 +306,8 @@ namespace Common
         try
         {
           string json = result;
-        // Convert JSON structure to allow Unity's json utility to handle it.
-        json = json.Replace("\"packages\":{\"", "\"packages\":[{\"packageId\":\"");
+          // Convert JSON structure to allow Unity's json utility to handle it.
+          json = json.Replace("\"packages\":{\"", "\"packages\":[{\"packageId\":\"");
           json = json.Replace("}},\"status\"", "}],\"status\"");
           json = json.Replace("\"},\"", "\"},{\"packageId\":\"");
           json = json.Replace(":{\"project_path\"", ",\"project_path\"");
@@ -316,15 +316,7 @@ namespace Common
 
           EditorJsonUtility.FromJsonOverwrite(json, packages);
 
-        /*
-        List<Package> list = new List<Package>(packages.packages);
-
-        list.Sort((a, b) => a.name.CompareTo(b.name));
-
-        this.packages = list.ToArray();
-        //*/
-
-          this.cachedPackages = packages;
+          MergePackages(packages);
 
           Debug.Log("Packages:" + json);
 
@@ -342,6 +334,35 @@ namespace Common
             onCompleted(response, result);
         }
       });
+    }
+
+    /// <summary>
+    /// Keep BatchSubmitter specific fields (selected, hidden, includeDependencies, foldout)
+    /// </summary>
+    /// <param name="newPackages"></param>
+    void MergePackages(PackageCollection newPackages)
+    {
+      // For each new package, copy from cachedPackages some fields
+      for (int i = 0; i < newPackages.packages.Length; i++)
+      {
+        Package newPackage = newPackages.packages[i];
+        Package cachedPackage = Array.Find<Package>(this.cachedPackages.packages, p => p.name.Equals(newPackage.name));
+        if (cachedPackage != null)
+        {
+          newPackage.selected = cachedPackage.selected;
+          newPackage.hidden = cachedPackage.hidden;
+          newPackage.includeDependencies = cachedPackage.includeDependencies;
+          newPackage.foldout = cachedPackage.foldout;
+        }
+      }
+
+      // Sort by name
+      List<Package> list = new List<Package>(newPackages.packages);
+      list.Sort((a, b) => a.name.CompareTo(b.name));
+      newPackages.packages = list.ToArray();
+
+      // assign new packages
+      this.cachedPackages = newPackages;
     }
 
     #endregion
